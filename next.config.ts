@@ -6,7 +6,9 @@ const config: NextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   cacheMaxMemorySize: 0,
-  images: { formats: ['image/avif', 'image/webp'] },
+  // Assets are prepared as WebP by scripts/prepare-assets.mjs. Runtime image
+  // conversion exhausts the 256 MiB container when several screenshots load.
+  images: { unoptimized: true },
   async headers() {
     return [
       {

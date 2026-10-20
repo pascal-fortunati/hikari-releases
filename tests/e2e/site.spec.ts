@@ -5,6 +5,16 @@ import { preparePageForCapture } from '../../scripts/browser-readiness.mjs';
 test('all pages, images, metadata and official download links work', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  page.on('response', (response) => {
+    if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`);
+  });
+  page.on('request', (request) => {
+    // Screenshots are already WebP: serving them must not invoke the memory-heavy
+    // runtime optimizer on the resource-limited production container.
+    if (new URL(request.url()).pathname === '/_next/image') {
+      errors.push(`Unexpected runtime image conversion: ${request.url()}`);
+    }
+  });
   for (const route of [
     '/',
     '/hikari-ia',

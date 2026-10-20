@@ -21,6 +21,8 @@ Le site est une application Next.js standalone, construite en CI et déployée p
 
 `deploy/pushora-app.json` fournit les paramètres de l’application. Les identifiants réels du dépôt lié, le stockage et le domaine sont configurés dans Pushora et ne sont pas stockés dans ce fichier. Aucun secret n’est nécessaire au build.
 
+Les captures et logos sont préparés en WebP et servis directement (`images.unoptimized`). Ne pas activer leur conversion à la volée : plusieurs conversions simultanées dépassent la limite de 256 Mio et provoquent des arrêts du serveur, puis des réponses 502 sur les pages et les scripts. Après déploiement, vérifier aussi les images dans un navigateur et l’absence de redémarrages du conteneur.
+
 ## Mise en ligne
 
 1. Publier le commit sur `main`. Le workflow lance TypeScript, les tests, la compilation, l’audit des dépendances et les tests navigateur avant de publier l’image sur GHCR.
