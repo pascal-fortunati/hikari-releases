@@ -1,0 +1,16 @@
+{
+  "slug": "hikari",
+  "name": "Hikari",
+  "description": "Site officiel Next.js de l’application Windows Hikari.",
+  "imageRepository": "ghcr.io/pascal-fortunati/hikari-releases",
+  "internalPort": 3000,
+  "memoryMb": 256,
+  "milliCpus": 500,
+  "pidsLimit": 256,
+  "healthTimeoutSec": 90,
+  "securityProfile": "strict",
+  "repositoryId": null,
+  "branch": "main",
+  "deployMode": "manual",
+  "workflowFile": "deploy.yml"
+}

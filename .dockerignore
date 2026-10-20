@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+.next
+.env*
+data
+artifacts
+test-results
+playwright-report
+*.tsbuildinfo
+docs/screenshots
+AGENTS.md
+docs/HIKARI-IA-CONTENU.md
+docs/VALIDATION-SITE.md

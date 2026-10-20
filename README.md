@@ -81,4 +81,13 @@ Chaque version est accompagnée d’un fichier `SHA256SUMS.txt` : Hikari l’uti
 - Vos favoris, votre historique et vos réglages restent sur votre ordinateur.
 - Ce produit utilise l’API TMDB, sans être approuvé ni certifié par TMDB.
 
-Ce dépôt contient uniquement les versions publiées de l’application.
+Ce dépôt contient les versions publiées de l’application et les sources de son site officiel Next.js.
+
+## Site officiel
+
+Le site présente Hikari, ses captures et ses fonctionnalités. Les téléchargements et le changelog sont synchronisés automatiquement avec les releases GitHub, sans redéploiement à chaque version de l’application.
+
+- [Développement et maintenance du site](docs/SITE.md)
+- [Déploiement dans Pushora](docs/DEPLOIEMENT-HIKARI.md)
+
+Pour démarrer le site localement : Node.js 24, `npm ci`, puis `npm run dev`. Ouvrir `http://localhost:43123`.

@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+@import 'flyonui/variants.css';
+@import './pages.css';
+@import './experience.css';
+@import './intelligence.css';
+@import './inner-pages.css';
+@source "../../node_modules/flyonui/dist/accordion.js";
+@source "../../node_modules/flyonui/dist/collapse.js";
+@source "../../node_modules/flyonui/dist/tabs.js";
+@source "../../node_modules/flyonui/dist/overlay.js";
+@plugin "flyonui" {
+  themes: false;
+}
+/*
+ * Hikari themes. Every colour comes from the logo:
+ *   navy #0d2a4b · royal blue #3965a7 · periwinkle #648ec2 → #a9c0e6
+ *   cream #f2e7dc · apricot #fcc390 (the play triangle) · petal #fbc7b3
+ * Blue drives navigation, selection and focus. Apricot is reserved for
+ * playback (play buttons, watch progress) so it stays meaningful.
+ * Every *-content pair meets WCAG AA (≥ 4.5:1) on its colour.
+ */
+@plugin "flyonui/theme" {
+  name: 'hikari-dark';
+  default: true;
+  color-scheme: dark;
+  --color-base-100: #152033;
+  --color-base-200: #0e1626;
+  --color-base-300: #0a101c;
+  --color-base-content: #e7edf6;
+  --color-primary: #9db9e8;
+  --color-primary-content: #0d2340;
+  --color-secondary: #b7c6df;
+  --color-secondary-content: #12233b;
+  --color-accent: #f7bd8f;
+  --color-accent-content: #3a1c06;
+  --color-neutral: #c3cddc;
+  --color-neutral-content: #111b2b;
+  --color-info: #82c4ec;
+  --color-info-content: #062033;
+  --color-success: #8fd4b0;
+  --color-success-content: #06251a;
+  --color-warning: #f1cf80;
+  --color-warning-content: #2b1f05;
+  --color-error: #f29b94;
+  --color-error-content: #2d0c0a;
+  --radius-selector: 0.75rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+@plugin "flyonui/theme" {
+  name: 'hikari-light';
+  color-scheme: light;
+  --color-base-100: #ffffff;
+  --color-base-200: #f4f3ef;
+  --color-base-300: #e7e5df;
+  --color-base-content: #142740;
+  --color-primary: #2a5694;
+  --color-primary-content: #ffffff;
+  --color-secondary: #4b6890;
+  --color-secondary-content: #ffffff;
+  --color-accent: #b0561d;
+  --color-accent-content: #ffffff;
+  --color-neutral: #3a4b66;
+  --color-neutral-content: #ffffff;
+  --color-info: #1f6996;
+  --color-info-content: #ffffff;
+  --color-success: #1d6c4a;
+  --color-success-content: #ffffff;
+  --color-warning: #8a5a0c;
+  --color-warning-content: #ffffff;
+  --color-error: #b3393a;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.75rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}

@@ -1,0 +1,20 @@
+# Local verification only. Pushora creates its own containers and network aliases.
+services:
+  hikari:
+    build: .
+    image: hikari-site:local
+    ports:
+      - '127.0.0.1:43125:3000'
+    environment:
+      RELEASE_CACHE_DIR: /app/data
+    volumes:
+      - hikari-data:/app/data
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 256
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    init: true
+volumes:
+  hikari-data:
