@@ -93,7 +93,7 @@ export default async function DownloadPage() {
               <dt>Lecteur vidéo</dt>
               <dd>Composant à installer au premier usage, environ 70 Mo</dd>
               <dt>Hikari IA</dt>
-              <dd>Optionnel · carte NVIDIA RTX requise</dd>
+              <dd>NVIDIA RTX requise · désactivable</dd>
             </dl>
           </div>
           {(digest || sums) && (
@@ -167,10 +167,10 @@ export default async function DownloadPage() {
           <div className="requirements">
             <h3>Et pour Hikari IA ?</h3>
             <p className="small muted">
-              Les composants IA se téléchargent séparément depuis l’application. Le moteur
-              Restauration ajoute environ 110 Mo et se prépare pour votre GPU à la première
-              utilisation d’une définition. La lecture standard reste disponible pendant cette
-              préparation.
+              Les composants NVIDIA s’installent depuis l’application. Le moteur Hikari ajoute
+              environ 5 Mo, téléchargés automatiquement en arrière-plan. Sa préparation est
+              réutilisée entre les définitions : elle dépend du facteur d’agrandissement, du format
+              vidéo et de votre GPU. La lecture standard reste disponible pendant cette étape.
             </p>
           </div>
           <Link href="/installation" className="text-link mt-6">

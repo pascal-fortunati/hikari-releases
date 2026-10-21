@@ -33,9 +33,10 @@ export default function CreditsPage() {
         <section id="application" data-reveal>
           <h2>Hikari et Hikari IA</h2>
           <p>
-            Hikari est développé par Pascal Fortunati. L’intégration native, l’orchestration et les
-            optimisations propres à Hikari ne constituent pas une revendication de création de
-            l’ensemble des modèles neuronaux utilisés.
+            Hikari est développé par Pascal Fortunati. Depuis la version 1.2.0, le moteur Hikari
+            utilise son propre modèle : architecture et poids conçus pour le projet, entraînement
+            sur des images procédurales générées pour Hikari. Le lecteur et le rendu Naturel
+            utilisent aussi les composants tiers indiqués ci-dessous.
           </p>
           <ul>
             <li>
@@ -56,8 +57,9 @@ export default function CreditsPage() {
               <a href="https://github.com/bilibili/ailab/tree/main/Real-CUGAN">
                 Real-CUGAN, bilibili
               </a>{' '}
-              : modèles de restauration, licence MIT. Les crédits et licences sont également fournis
-              avec le composant Restauration téléchargé par l’application.
+              : modèles de l’ancien moteur Restauration des versions 1.1.3 et 1.1.4, sous licence
+              MIT. Le moteur Hikari de la version 1.2.0 les remplace. Les licences de ces anciennes
+              distributions restent fournies avec leurs composants.
             </li>
             <li>
               <a href="https://developer.nvidia.com/tensorrt">NVIDIA TensorRT</a> : accélération de

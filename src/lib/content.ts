@@ -84,7 +84,15 @@ export const faqs = [
   ],
   [
     'Comment activer Hikari IA ?',
-    'Sur une machine équipée d’une NVIDIA RTX, installe Hikari IA depuis les paramètres du lecteur. Restauration se télécharge ensuite en arrière-plan, environ 110 Mo. Choisis Automatique dans le panneau Hikari IA, ou sélectionne ton moteur et tes réglages. La première lecture d’une définition demande une à trois minutes de préparation ; l’épisode continue sans IA en attendant.',
+    'Sur une machine NVIDIA RTX, installe les composants Hikari IA depuis les paramètres du lecteur. Le moteur Hikari ajoute environ 5 Mo, téléchargés automatiquement en arrière-plan. Automatique est activé par défaut sur une nouvelle installation ; tu peux choisir parmi six profils et mémoriser un choix par série. Le moteur se prépare une fois par facteur et format vidéo, puis sert aux différentes définitions. La vidéo continue sans IA pendant la préparation.',
+  ],
+  [
+    'Puis-je choisir un rendu différent pour chaque animé ?',
+    'Oui. Le profil Hikari IA choisi pendant la lecture est mémorisé pour toute la série. Les autres animés suivent ton profil par défaut. Automatique, Remasterisé, Restauré, Fidèle, Naturel et Personnalisé sont disponibles ; ce dernier permet de régler la netteté, la vivacité, la noirceur et l’épaisseur des traits en direct.',
+  ],
+  [
+    'À quoi sert Mouvement fluide ?',
+    'Le lecteur cale la vidéo sur la fréquence de ton écran et adoucit le passage entre les images, pour limiter les saccades des panoramiques à 24 ou 25 images/s. Ce réglage est activé par défaut dans les paramètres vidéo et peut être désactivé. Il ne génère pas d’images par IA et fonctionne indépendamment du profil Hikari IA.',
   ],
   [
     'Pourquoi certains contenus sont-ils indisponibles ?',

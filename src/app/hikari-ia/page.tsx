@@ -4,64 +4,104 @@ import { Icon } from '@/components/icon';
 import { Screenshot } from '@/components/screenshot';
 
 export const metadata: Metadata = {
-  title: 'Hikari IA — Moteurs, traitement GPU et fonctionnement',
+  title: 'Hikari IA — Le moteur maison, les profils et le traitement GPU',
   description:
-    'Comment Hikari IA améliore tes animés : moteurs Rapide et Restauration, choix automatique, pipeline GPU TensorRT, réglages, comparaison et préparation des moteurs.',
+    'Un moteur conçu pour les animés, six profils de rendu, des réglages en direct et un choix mémorisé par série. Découvre le fonctionnement de Hikari IA sur NVIDIA RTX.',
   alternates: { canonical: '/hikari-ia' },
 };
 
 const chapters = [
-  ['moteurs', 'Les deux moteurs'],
+  ['moteurs', 'Le moteur Hikari'],
+  ['profils', 'Les six profils'],
   ['automatique', 'Le choix automatique'],
   ['pipeline', 'Dans le GPU'],
   ['preparation', 'La première lecture'],
-  ['reglages', 'Les réglages'],
   ['verification', 'Comparer et mesurer'],
 ] as const;
+
+const profiles = [
+  {
+    icon: 'auto_fix_high',
+    title: 'Automatique',
+    label: 'LE POINT DE DÉPART',
+    text: 'Hikari choisit selon la vidéo : Restauré pour la SD, Fidèle pour la HD, Naturel si le moteur Hikari ne peut pas suivre. Le panneau indique le rendu appliqué.',
+  },
+  {
+    icon: 'contrast',
+    title: 'Remasterisé',
+    label: 'UN RENDU AFFIRMÉ',
+    text: 'Des traits noirs et nets, des blancs francs et des couleurs vives. Pour donner davantage de présence à l’image.',
+  },
+  {
+    icon: 'auto_awesome',
+    title: 'Restauré',
+    label: 'NET, SANS EXCÈS',
+    text: 'Le moteur Hikari avec une accentuation modérée des traits et des aplats. Une image propre, sans pousser les réglages.',
+  },
+  {
+    icon: 'palette',
+    title: 'Fidèle',
+    label: 'LE MODÈLE SEUL',
+    text: 'La restauration Hikari sans accentuation ajoutée. Pour garder le dessin et les couleurs au centre du rendu.',
+  },
+  {
+    icon: 'eco',
+    title: 'Naturel',
+    label: 'UN TRAITEMENT LÉGER',
+    text: 'Un agrandissement plus léger, au plus près de l’original. Ce profil couvre aussi les sources HD à 60 images/s lorsque le moteur Hikari atteint sa limite.',
+  },
+  {
+    icon: 'tune',
+    title: 'Personnalisé',
+    label: 'À TA FAÇON',
+    text: 'Netteté, vivacité, noirceur et épaisseur des traits : quatre réglages appliqués en direct, sans relancer la vidéo ni recompiler le moteur.',
+  },
+];
 
 const automaticRules = [
   [
     'SD · jusqu’au 576p',
-    'Restauration ×4',
-    'À environ 30 images/s maximum, si le modèle est installé et la lecture fluide.',
+    'Restauré · ×4',
+    'Jusqu’à environ 60 images/s, avec le modèle ×4 installé.',
+  ],
+  ['HD · au-delà du 576p, jusqu’au 720p', 'Fidèle · ×2', 'Jusqu’à environ 60 images/s.'],
+  [
+    'Full HD · au-delà du 720p, jusqu’au 1080p',
+    'Fidèle · ×2',
+    'Jusqu’à environ 30 images/s. Une source 1080p peut ainsi être agrandie en 4K.',
   ],
   [
-    'HD · au-delà du 576p, jusqu’au 720p',
-    'Restauration ×2',
-    'Même contrôle de cadence et de fluidité. Le débruitage conservateur est choisi.',
+    'HD à cadence plus élevée · ou moteur Hikari non fluide',
+    'Naturel',
+    'Le rendu léger prend le relais, dans les limites des modèles disponibles.',
   ],
   [
-    'Jusqu’au 1080p · ou cadence trop élevée pour Restauration',
-    'Rapide · Quality',
-    'La variante dépend de la définition. Le profil couvre aussi les vidéos jusqu’à 60 images/s.',
-  ],
-  [
-    'Au-delà du 1080p · ou de la cadence couverte',
+    'Au-delà du 1080p · ou d’environ 60 images/s',
     'Lecture standard',
-    'Hikari désactive le traitement IA lorsque les modèles ne couvrent pas la source.',
+    'Les modèles actuels ne couvrent pas ces sources. Le lecteur reste disponible sans traitement IA.',
   ],
 ] as const;
 
 const pipeline = [
   {
     icon: 'movie',
-    title: 'Décoder la vidéo',
-    text: 'Le lecteur décode les images sur le GPU. Le moteur Restauration accepte les entrées 8 bits et 10 bits, dans les formats NV12 et P010.',
-  },
-  {
-    icon: 'analytics',
-    title: 'Analyser l’image',
-    text: 'Une première partie du calcul extrait les statistiques nécessaires au modèle. Elles sont recalculées à chaque image dans le chemin TensorRT actuel.',
+    title: 'Décoder sur le GPU',
+    text: 'Les images vidéo 8 ou 10 bits arrivent depuis le décodeur, aux formats NV12 ou P010. Les transferts du traitement restent en mémoire GPU.',
   },
   {
     icon: 'memory',
-    title: 'Reconstruire et agrandir',
-    text: 'Le réseau reçoit l’image et ces statistiques, reconstruit les traits et produit une image agrandie en calcul FP16. Les conversions de couleur font partie des graphes GPU.',
+    title: 'Restaurer avec Hikari',
+    text: 'TensorRT exécute le modèle en FP16. Le réseau travaille sur la luminance et la couleur à définition réduite, puis reconstruit l’image agrandie.',
+  },
+  {
+    icon: 'tune',
+    title: 'Appliquer ton rendu',
+    text: 'Les quatre réglages font partie du calcul. Ils sont relus pendant la lecture et appliqués aux images suivantes, sans reconstruire le moteur.',
   },
   {
     icon: 'monitor',
-    title: 'Renvoyer au lecteur',
-    text: 'La sortie est convertie en YUV 4:4:4 16 bits, puis transmise à la surface vidéo du lecteur. Les finitions et l’adaptation à l’écran viennent ensuite.',
+    title: 'Afficher dans le lecteur',
+    text: 'La sortie YUV 4:4:4 16 bits revient au lecteur natif. Les finitions et l’adaptation à ton écran complètent le rendu.',
   },
 ];
 
@@ -71,29 +111,30 @@ export default function HikariIAPage() {
       <section className="container ia-hero">
         <div>
           <p className="eyebrow">
-            <Icon name="memory" /> HIKARI IA · SOUS LE CAPOT
+            <Icon name="memory" /> HIKARI IA · LE MOTEUR MAISON
           </p>
           <h1>
             Hikari IA,
             <br />
-            <em>image par image.</em>
+            <em>à ta façon.</em>
           </h1>
           <p className="ia-lead">
-            Deux moteurs, du calcul sur ta NVIDIA RTX et un mode Automatique qui surveille la
-            fluidité. Voici ce qui se passe entre la vidéo source et ton écran.
+            Un modèle conçu pour les animés. Six profils pour choisir ton rendu. Et toute la
+            puissance de ta NVIDIA RTX, directement dans le lecteur : du DVD à agrandir à l’épisode
+            en Full HD.
           </p>
           <div className="ia-hero-actions">
-            <a href="#moteurs" className="btn btn-primary">
-              Comprendre les moteurs <Icon name="south" />
+            <a href="#profils" className="btn btn-primary">
+              Trouver mon rendu <Icon name="south" />
             </a>
             <Link href="/installation#hikari-ia" className="text-link">
               Installer Hikari IA <Icon name="arrow_outward" />
             </Link>
           </div>
           <ul className="ia-tags" aria-label="Caractéristiques Hikari IA">
-            <li>NVIDIA RTX</li>
-            <li>TensorRT</li>
-            <li>Intégration C++</li>
+            <li>Modèle Hikari</li>
+            <li>NVIDIA RTX · TensorRT</li>
+            <li>Réglages en direct</li>
             <li>Traitement local</li>
           </ul>
         </div>
@@ -104,17 +145,17 @@ export default function HikariIAPage() {
           </div>
           <Screenshot
             id="player"
-            alt="Le lecteur vidéo natif Hikari dans lequel les traitements IA sont intégrés"
+            alt="Le lecteur vidéo natif Hikari, avec amélioration de l’image intégrée"
             priority
           />
           <div className="ia-signal" aria-label="Du décodage à l’écran">
             <span>Vidéo</span>
             <Icon name="east" />
-            <strong>Hikari IA · GPU</strong>
+            <strong>Moteur Hikari · GPU</strong>
             <Icon name="east" />
             <span>Écran</span>
           </div>
-          <figcaption>Hikari IA, directement dans ton lecteur vidéo.</figcaption>
+          <figcaption>Ton épisode, ton profil, dans le même lecteur.</figcaption>
         </figure>
       </section>
 
@@ -130,51 +171,50 @@ export default function HikariIAPage() {
       <section className="container ia-section" id="moteurs">
         <div className="ia-heading" data-reveal>
           <div>
-            <p className="eyebrow">01 / DEUX MOTEURS COMPLÉMENTAIRES</p>
+            <p className="eyebrow">01 / CONÇU POUR HIKARI</p>
             <h2>
-              La même vidéo.
+              Un moteur maison.
               <br />
-              <em>Deux façons de la traiter.</em>
+              <em>Le dessin d’abord.</em>
             </h2>
           </div>
           <p>
-            Hikari utilise un moteur IA à la fois. Tu peux le choisir dans le panneau Hikari IA ou
-            laisser le mode Automatique décider pour chaque vidéo.
+            Le moteur Hikari restaure et agrandit les images pendant la lecture. Son modèle a été
+            conçu et entraîné pour Hikari, avec une attention particulière aux traits, aux aplats et
+            aux couleurs des animés.
           </p>
         </div>
         <div className="ia-engine-grid">
           <article className="card ia-engine-card" data-reveal>
             <div className="ia-engine-label">
-              <Icon name="speed" />
-              <span>AMÉLIORATION COURANTE</span>
+              <Icon name="draw" />
+              <span>DU MODÈLE AU LECTEUR</span>
             </div>
-            <h3>Rapide</h3>
+            <h3>Hikari.</h3>
             <p>
-              Un agrandissement IA adapté aux animés SD et HD, avec des profils pour équilibrer le
-              coût du calcul et le traitement choisi.
+              Une architecture et des poids propres au projet. L’entraînement utilise des images
+              procédurales générées pour Hikari, sans images ni poids de modèles tiers dans ce
+              modèle.
             </p>
             <dl className="ia-options">
               <div>
-                <dt>Performance</dt>
-                <dd>Un modèle HD allégé, pour réduire la charge sur la carte graphique.</dd>
+                <dt>Préserver le dessin</dt>
+                <dd>Reconstruire les lignes et garder les couleurs au plus près de la source.</dd>
               </div>
               <div>
-                <dt>Balanced</dt>
-                <dd>Le modèle HD complet pour les vidéos à 24 ou 30 images/s.</dd>
-              </div>
-              <div>
-                <dt>Quality</dt>
+                <dt>Choisir le caractère de l’image</dt>
                 <dd>
-                  Le même modèle que Balanced à 24/30 images/s, avec une chaîne supplémentaire pour
-                  la HD jusqu’à 60 images/s.
+                  Du modèle seul à un rendu plus affirmé, avec des réglages intégrés au traitement.
+                </dd>
+              </div>
+              <div>
+                <dt>Tout faire en local</dt>
+                <dd>
+                  Les images sont traitées sur ta carte graphique, sans envoi à un service IA
+                  distant.
                 </dd>
               </div>
             </dl>
-            <p className="ia-engine-note">
-              <strong>Standard ou Sharp :</strong> un rendu fidèle à la source, ou des contours plus
-              accentués sur les sources HD. Sur les vrais DVD SD, deux passes successives SD puis HD
-              permettent un agrandissement ×4.
-            </p>
           </article>
           <article
             className="card ia-engine-card ia-engine-restore"
@@ -182,19 +222,19 @@ export default function HikariIAPage() {
             data-reveal
           >
             <div className="ia-engine-label">
-              <Icon name="auto_fix_high" />
-              <span>TRAITS & DÉBRUITAGE</span>
+              <Icon name="zoom_out_map" />
+              <span>DEUX FACTEURS D’AGRANDISSEMENT</span>
             </div>
-            <h3>Restauration</h3>
-            <p>
-              Pour les épisodes dont les contours et les aplats ont souffert : reconstruction des
-              traits, réduction du bruit et agrandissement dans le même traitement.
-            </p>
+            <h3>
+              Plus grand.
+              <br />
+              Plus net.
+            </h3>
             <div className="ia-scale-grid">
               <div>
                 <strong>×4</strong>
                 <span>
-                  Sources SD
+                  Sources DVD / SD
                   <br />
                   jusqu’au 576p
                 </span>
@@ -202,19 +242,94 @@ export default function HikariIAPage() {
               <div>
                 <strong>×2</strong>
                 <span>
-                  Sources HD
+                  Sources HD / Full HD
                   <br />
-                  jusqu’au 720p
+                  jusqu’au 1080p
                 </span>
               </div>
             </div>
             <p>
-              Le facteur s’applique à la largeur et à la hauteur de l’image. Le lecteur adapte
-              ensuite cette sortie à ton écran.
+              Le facteur s’applique à la largeur et à la hauteur. Le ×4 enchaîne deux passes ×2 ; le
+              lecteur adapte ensuite l’image à ton écran.
             </p>
             <p className="ia-engine-note">
-              Modèle Standard, Pro ou Sans SE ; débruitage conservateur, désactivé ou plus prononcé
-              selon les modèles installés. La fluidité dépend de ta carte et de la vidéo.
+              La cadence et ta carte comptent aussi. Automatique choisit un traitement adapté et
+              surveille la fluidité pendant la lecture.
+            </p>
+          </article>
+        </div>
+        <details className="ia-disclosure">
+          <summary>Comment le modèle limite-t-il le coût du calcul ?</summary>
+          <p>
+            L’architecture HKN-Y traite la luminance et la couleur en YCbCr 4:2:0, sur une grille
+            contenant un quart des pixels. Des convolutions à large contexte servent à lire les
+            structures du dessin. Les calculs sont regroupés dans un graphe TensorRT : entrée vidéo,
+            réseau, réglages et conversion de sortie s’exécutent dans le même moteur.
+          </p>
+        </details>
+      </section>
+
+      <section className="container ia-section" id="profils">
+        <div className="ia-heading" data-reveal>
+          <div>
+            <p className="eyebrow">02 / SIX PROFILS DE RENDU</p>
+            <h2>
+              Choisis une image.
+              <br />
+              <em>Hikari fait le reste.</em>
+            </h2>
+          </div>
+          <p>
+            Pas besoin de choisir un moteur technique. Sélectionne le rendu qui te plaît, ou
+            commence en Automatique : Hikari choisit selon l’épisode.
+          </p>
+        </div>
+        <div className="ia-detail-grid ia-profile-grid">
+          {profiles.map((profile) => (
+            <article key={profile.title} data-reveal>
+              <Icon name={profile.icon} />
+              <span className="ia-profile-label">{profile.label}</span>
+              <h3>{profile.title}</h3>
+              <p>{profile.text}</p>
+            </article>
+          ))}
+        </div>
+        <div className="ia-series-profile" data-reveal>
+          <Icon name="bookmarks" />
+          <div>
+            <h3>Un animé, un profil.</h3>
+            <p>
+              Choisis un profil pendant la lecture : il est retenu pour toute la série. Les autres
+              animés suivent ton profil par défaut, Automatique sur une nouvelle installation. Tu
+              peux revenir à ce profil par défaut à tout moment.
+            </p>
+          </div>
+        </div>
+        <div id="reglages" className="ia-detail-grid ia-settings-grid">
+          <article>
+            <Icon name="deblur" />
+            <h3>Netteté</h3>
+            <p>
+              Dose la précision des traits. À 1, le modèle agit seul ; tu peux atténuer ou accentuer
+              son rendu.
+            </p>
+          </article>
+          <article>
+            <Icon name="wb_sunny" />
+            <h3>Vivacité</h3>
+            <p>Donne davantage de présence aux blancs et au contraste local.</p>
+          </article>
+          <article>
+            <Icon name="contrast" />
+            <h3>Noirceur des traits</h3>
+            <p>Renforce les lignes ou éclaircis-les avec une valeur négative.</p>
+          </article>
+          <article>
+            <Icon name="line_weight" />
+            <h3>Épaisseur des traits</h3>
+            <p>
+              Épaissis les contours, ou affine-les avec une valeur négative. Les changements
+              s’appliquent en direct.
             </p>
           </article>
         </div>
@@ -223,36 +338,38 @@ export default function HikariIAPage() {
       <section className="container ia-section" id="automatique">
         <div className="ia-heading" data-reveal>
           <div>
-            <p className="eyebrow">02 / AUTOMATIQUE, AVEC DES RÈGLES PRÉCISES</p>
+            <p className="eyebrow">03 / AUTOMATIQUE, VIDÉO PAR VIDÉO</p>
             <h2>
-              La définition compte.
+              La bonne dose.
               <br />
-              <em>La cadence aussi.</em>
+              <em>Au bon moment.</em>
             </h2>
           </div>
           <p>
-            Hikari lit la taille et la cadence de la source, vérifie les moteurs installés et
-            choisit le traitement. Le panneau explique le choix appliqué à la vidéo en cours.
+            Définition, cadence, composants installés : Hikari choisit le profil et
+            l’agrandissement. Le panneau explique ce qui est réellement appliqué à la vidéo en
+            cours.
           </p>
         </div>
         <div className="ia-table-wrap">
           <table className="ia-table">
             <caption>
-              Règles du mode Automatique, sous réserve des composants disponibles et de la fluidité.
+              Choix du profil Automatique, sous réserve des composants installés et de la fluidité
+              mesurée. Les seuils de définition tiennent compte du nombre de pixels de la source.
             </caption>
             <thead>
               <tr>
                 <th scope="col">La source</th>
-                <th scope="col">Le choix</th>
-                <th scope="col">Ce qui compte</th>
+                <th scope="col">Le rendu</th>
+                <th scope="col">La cadence et les conditions</th>
               </tr>
             </thead>
             <tbody>
-              {automaticRules.map(([source, engine, detail]) => (
+              {automaticRules.map(([source, profile, detail]) => (
                 <tr key={source}>
                   <th scope="row">{source}</th>
                   <td>
-                    <strong>{engine}</strong>
+                    <strong>{profile}</strong>
                   </td>
                   <td>{detail}</td>
                 </tr>
@@ -262,59 +379,70 @@ export default function HikariIAPage() {
         </div>
         <div className="ia-detail-grid">
           <article>
-            <Icon name="slow_motion_video" />
-            <h3>Le désentrelacement change la cadence.</h3>
+            <Icon name="query_stats" />
+            <h3>La lecture reste la référence.</h3>
             <p>
-              Une source entrelacée peut fournir deux images par image d’origine après
-              désentrelacement. Hikari utilise cette cadence effective pour choisir un moteur
-              capable de suivre.
+              Automatique suit les images perdues, l’écart audio/vidéo et le budget du moteur. Si le
+              traitement Hikari ne suit plus, le rendu Naturel prend le relais lorsqu’il est
+              disponible.
             </p>
           </article>
           <article>
-            <Icon name="query_stats" />
-            <h3>La fluidité est mesurée pendant la lecture.</h3>
+            <Icon name="slow_motion_video" />
+            <h3>La cadence après désentrelacement compte.</h3>
             <p>
-              Par fenêtres de 10 secondes de lecture effective, Hikari suit les images perdues,
-              l’écart audio/vidéo et le budget du moteur. Si Restauration ne suit plus, Automatique
-              passe au moteur Rapide.
+              Un DVD entrelacé peut produire deux images par image d’origine après désentrelacement.
+              Hikari tient compte de cette cadence effective.
             </p>
           </article>
           <article>
             <Icon name="tune" />
-            <h3>Ton choix manuel reste ton choix.</h3>
+            <h3>Ton profil reste ton choix.</h3>
             <p>
-              Le basculement automatique concerne le mode Automatique. En sélection manuelle, les
-              mesures restent visibles ; Hikari respecte le moteur demandé.
+              Le basculement lié aux mesures de fluidité concerne Automatique. Un profil manuel
+              reste sélectionné ; si la source dépasse les limites du modèle, le panneau indique le
+              rendu de repli.
             </p>
           </article>
         </div>
         <details className="ia-disclosure">
-          <summary>Quels seuils sont surveillés ?</summary>
+          <summary>Comment la fluidité est-elle vérifiée ?</summary>
           <p>
-            Après une phase de démarrage, la mesure exige au maximum 1 % d’images perdues, un écart
-            audio/vidéo maximal de 80 ms et un moteur dans son budget de calcul. Les pauses, le
-            buffering et les comparaisons ne comptent pas comme de la lecture continue. Une
-            combinaison de définition et de cadence mesurée non fluide reste écartée de Restauration
-            pour la session.
+            Après le démarrage, Hikari mesure des fenêtres de 10 secondes de lecture effective : au
+            maximum 1 % d’images perdues, 80 ms d’écart audio/vidéo et un moteur dans son budget.
+            Pauses, buffering et comparaisons sont exclus. Une source mesurée non fluide est écartée
+            du moteur Hikari pour cette combinaison de définition et de cadence pendant la session.
           </p>
         </details>
+        <div className="ia-series-profile" data-reveal>
+          <Icon name="motion_photos_on" />
+          <div>
+            <h3>Mouvement fluide, aussi pour les panoramiques.</h3>
+            <p>
+              Le lecteur cale la vidéo sur la fréquence de l’écran et adoucit le passage entre les
+              images. Les panoramiques à 24 ou 25 images/s saccadent moins, sans génération d’images
+              par IA. Ce réglage vidéo est activé par défaut et reste désactivable, indépendamment
+              du profil Hikari IA.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="ia-gpu-section" id="pipeline" data-theme="hikari-dark">
         <div className="container">
           <div className="ia-heading" data-reveal>
             <div>
-              <p className="eyebrow">03 / LE PARCOURS D’UNE IMAGE</p>
+              <p className="eyebrow">04 / LE PARCOURS D’UNE IMAGE</p>
               <h2>
                 Du décodage au rendu.
                 <br />
-                <em>Sur le GPU.</em>
+                <em>Sur ta RTX.</em>
               </h2>
             </div>
             <p>
-              Le moteur Restauration est intégré en C++ au lecteur natif. Son pipeline TensorRT
-              sépare l’analyse, la restauration et la conversion de sortie pour exécuter les calculs
-              sur la carte graphique.
+              Le modèle Hikari et son intégration C++ travaillent avec le lecteur natif. Un seul
+              moteur TensorRT réunit les étapes de traitement de chaque image ; aucun environnement
+              Python n’est nécessaire dans l’application.
             </p>
           </div>
           <ol className="ia-pipeline">
@@ -331,19 +459,17 @@ export default function HikariIAPage() {
           </ol>
           <div className="ia-gpu-notes">
             <p>
-              <Icon name="developer_board" />
+              <Icon name="gradient" />
               <span>
-                <strong>Copies GPU vers GPU.</strong> Le traitement Restauration évite
-                l’aller-retour des images par la mémoire du processeur. Le flux de calcul est
-                synchronisé avec celui du décodeur.
+                <strong>Les finitions restent disponibles.</strong> Lissage des dégradés, grain fin
+                et mise à l’échelle haute qualité complètent le rendu du modèle.
               </span>
             </p>
             <p>
-              <Icon name="desktop_windows" />
+              <Icon name="closed_caption" />
               <span>
-                <strong>Calcul local.</strong> Les images ne sont pas envoyées à un service IA. Les
-                téléchargements des composants et l’accès aux sources vidéo restent des échanges
-                réseau distincts.
+                <strong>Le lecteur garde ses commandes.</strong> Pistes audio, sous-titres,
+                navigation dans l’épisode et plein écran restent accessibles pendant le traitement.
               </span>
             </p>
           </div>
@@ -353,126 +479,60 @@ export default function HikariIAPage() {
       <section className="container ia-section" id="preparation">
         <div className="ia-heading" data-reveal>
           <div>
-            <p className="eyebrow">04 / PRÉPARER UNE FOIS, RÉUTILISER ENSUITE</p>
+            <p className="eyebrow">05 / PRÉPARÉ UNE FOIS, RÉUTILISÉ ENSUITE</p>
             <h2>
-              Le premier lancement
+              Moins d’attente.
               <br />
-              <em>travaille un peu plus.</em>
+              <em>Plus d’épisodes.</em>
             </h2>
           </div>
           <p>
-            Un modèle doit être préparé pour ta carte et le format de la vidéo. Hikari affiche la
-            progression pendant ce calcul, puis conserve les moteurs pour les lectures suivantes.
+            Le composant du moteur Hikari pèse environ 5 Mo, en complément des composants NVIDIA de
+            Hikari IA. Ses moteurs dynamiques servent ensuite pour toutes les définitions couvertes.
           </p>
         </div>
         <ol className="ia-install-steps">
           <li>
             <span>01</span>
             <div>
-              <h3>Installer les composants</h3>
+              <h3>Installer Hikari IA</h3>
               <p>
-                Depuis les paramètres du lecteur, installe Hikari IA sur une machine NVIDIA RTX. Le
-                composant Restauration se télécharge ensuite en arrière-plan, environ 110 Mo.
-                L’intégrité des téléchargements est vérifiée par SHA-256.
+                Sur une machine NVIDIA RTX, installe les composants depuis les paramètres du
+                lecteur. Le moteur Hikari se télécharge ensuite automatiquement en arrière-plan.
+                L’intégrité des téléchargements est vérifiée par SHA-256. Hikari IA est activé par
+                défaut sur une nouvelle installation.
               </p>
             </div>
           </li>
           <li>
             <span>02</span>
             <div>
-              <h3>Préparer le moteur pour la vidéo</h3>
+              <h3>Préparer les variantes pour ta carte</h3>
               <p>
-                À la première utilisation d’une combinaison de modèle, définition et format,
-                TensorRT compile les moteurs adaptés au GPU. Cela peut prendre une à trois minutes.
-                L’épisode continue sans IA pendant la préparation.
+                À la première utilisation, TensorRT prépare un moteur par facteur d’agrandissement
+                et format vidéo 8/10 bits. Une barre de progression suit l’opération ; l’épisode
+                continue sans IA en attendant. Sur la RTX 5070 Ti de référence : environ 24 secondes
+                pour ×2 et 40 secondes pour ×4.
               </p>
             </div>
           </li>
           <li>
             <span>03</span>
             <div>
-              <h3>Retrouver le moteur en cache</h3>
+              <h3>Passer d’une définition à l’autre</h3>
               <p>
-                Les moteurs préparés sont conservés localement. Le cache tient compte du GPU, de la
-                version TensorRT, du modèle, du facteur d’agrandissement, de la définition et du
-                format 8/10 bits. Un cache d’optimisation partagé aide aussi les préparations
-                suivantes.
+                Le même moteur dynamique traite les différentes définitions : changer de série ou
+                passer du 720p au 1080p ne demande plus de compilation par définition. Les variantes
+                déjà préparées sont conservées sur ton ordinateur.
               </p>
             </div>
           </li>
         </ol>
         <p className="ia-side-note">
-          Une nouvelle combinaison peut demander une nouvelle préparation. Le panneau du lecteur
-          indique l’étape et une estimation fondée sur les préparations précédentes.
+          Un facteur ou un format utilisé pour la première fois, une mise à jour du modèle ou un
+          changement de GPU peut nécessiter une nouvelle préparation. Sa durée dépend de ta
+          configuration.
         </p>
-      </section>
-
-      <section className="container ia-section" id="reglages">
-        <div className="ia-heading" data-reveal>
-          <div>
-            <p className="eyebrow">05 / CHOISIR LE RENDU</p>
-            <h2>
-              Les traits d’abord.
-              <br />
-              <em>Les finitions ensuite.</em>
-            </h2>
-          </div>
-          <p>
-            Le panneau Hikari IA réunit le choix du moteur et les finitions. Les réglages se
-            modifient pendant la lecture ; Automatique applique les valeurs recommandées.
-          </p>
-        </div>
-        <div className="ia-detail-grid ia-settings-grid">
-          <article>
-            <Icon name="texture" />
-            <h3>Débruitage</h3>
-            <p>
-              Dans Restauration, le mode conservateur préserve les traits sans lissage ajouté. Tu
-              peux choisir sans débruitage ou les niveaux léger, moyen et fort lorsqu’ils sont
-              fournis par le modèle installé.
-            </p>
-          </article>
-          <article>
-            <Icon name="gradient" />
-            <h3>Lissage des dégradés</h3>
-            <p>
-              Atténue les bandes visibles dans les ciels, les ombres et les aplats. Trois intensités
-              : léger, recommandé et fort.
-            </p>
-          </article>
-          <article>
-            <Icon name="grain" />
-            <h3>Grain fin</h3>
-            <p>
-              Ajoute une texture de grain dont tu règles l’intensité. Son activation et son dosage
-              restent séparés du moteur IA.
-            </p>
-          </article>
-          <article>
-            <Icon name="fit_screen" />
-            <h3>Mise à l’échelle haute qualité</h3>
-            <p>
-              Adapte le rendu final à l’écran avec le profil haute qualité du lecteur, après le
-              traitement IA.
-            </p>
-          </article>
-          <article>
-            <Icon name="deblur" />
-            <h3>Sources entrelacées</h3>
-            <p>
-              Le réglage vidéo propose un désentrelacement automatique, forcé ou désactivé. En
-              Automatique, sa cadence de sortie est prise en compte par le choix du moteur IA.
-            </p>
-          </article>
-          <article>
-            <Icon name="closed_caption" />
-            <h3>Les commandes du lecteur restent là</h3>
-            <p>
-              Sous-titres, pistes audio, navigation dans l’épisode et plein écran restent gérés par
-              le lecteur natif pendant l’amélioration de l’image.
-            </p>
-          </article>
-        </div>
       </section>
 
       <section className="container ia-section" id="verification">
@@ -480,110 +540,101 @@ export default function HikariIAPage() {
           <div>
             <p className="eyebrow">06 / VOIR ET VÉRIFIER</p>
             <h2>
-              Compare le rendu.
+              Compare à l’écran.
               <br />
-              <em>Lis les vraies mesures.</em>
+              <em>Regarde les mesures.</em>
             </h2>
           </div>
           <p>
-            Hikari distingue les réglages demandés du traitement réellement confirmé par le moteur.
-            Le statut « Active · vérifiée » repose sur les informations de la lecture en cours.
+            Le panneau indique le profil choisi et le rendu appliqué. Les statistiques montrent ce
+            que fait le lecteur : définition de sortie, cadence, coût GPU et fluidité.
           </p>
         </div>
         <div className="ia-verification-grid">
           <article className="ia-compare-card">
             <kbd className="kbd">C</kbd>
-            <h3>Compare les moteurs.</h3>
+            <h3>La même vidéo, plusieurs rendus.</h3>
             <ol>
               <li>Lecture standard</li>
-              <li>Hikari IA · Rapide</li>
-              <li>Hikari IA · Restauration</li>
+              <li>Rendu Naturel</li>
+              <li>Moteur Hikari</li>
             </ol>
             <p>
-              La touche C fait défiler les rendus disponibles sur la vidéo en cours. Le retour au
-              rendu configuré conserve tes réglages.
+              La touche C fait défiler les traitements disponibles. Revenir au rendu configuré
+              conserve tes réglages.
             </p>
             <p>
-              <strong>Maj + C</strong> enregistre des captures de la même image pour les moteurs
-              disponibles. Elles sont sauvegardées dans Images → Hikari → Comparaisons.
+              <strong>Maj + C</strong> enregistre des captures de la même image dans Images → Hikari
+              → Comparaisons, à la taille d’affichage du lecteur.
             </p>
           </article>
           <article className="ia-diagnostic-card">
             <Icon name="monitor_heart" />
             <h3>Le diagnostic du lecteur</h3>
             <ul>
-              <li>Moteur actif, profil demandé et profil confirmé.</li>
+              <li>Profil par défaut, profil de la série et rendu appliqué.</li>
               <li>Définition source, sortie du modèle et sortie des filtres.</li>
               <li>Cadence, images perdues et décodage matériel.</li>
-              <li>
-                Pour Restauration : coût GPU par image, latence, budget et mesure de fluidité
-                audio/vidéo.
-              </li>
-              <li>État de préparation, modèles installés et erreurs éventuelles.</li>
+              <li>Temps GPU par image, budget de calcul et fluidité audio/vidéo.</li>
+              <li>Progression de la préparation, composants installés et erreurs éventuelles.</li>
             </ul>
           </article>
         </div>
         <details className="ia-disclosure ia-measurements">
-          <summary>Les mesures de développement derrière les choix du mode Automatique</summary>
+          <summary>Les mesures du moteur Hikari sur RTX 5070 Ti</summary>
           <p>
-            Mesures documentées le 20 octobre 2026 sur une NVIDIA RTX 5070 Ti 16 Go. Pour
-            Restauration ×2, le banc TensorRT mesure les deux étapes analyse et restauration sur un
-            GPU libre :
+            Mesures du 21 octobre 2026 sur NVIDIA RTX 5070 Ti, avec TensorRT 11.3. Le banc utilise
+            le graphe NV12 complet : transferts en mémoire GPU, modèle, réglages et conversion de
+            sortie.
           </p>
           <div className="ia-table-wrap">
             <table className="ia-table">
-              <caption>Temps GPU analyse + restauration · RTX 5070 Ti · agrandissement ×2</caption>
+              <caption>Temps par image du moteur Hikari · banc natif · RTX 5070 Ti</caption>
               <thead>
                 <tr>
                   <th scope="col">Source</th>
-                  <th scope="col">Analyse + restauration</th>
-                  <th scope="col">Budget à environ 24 i/s</th>
+                  <th scope="col">Agrandissement</th>
+                  <th scope="col">Temps GPU par image</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">480p</th>
-                  <td>11,2 ms</td>
-                  <td>41,7 ms</td>
-                </tr>
-                <tr>
-                  <th scope="row">576p</th>
-                  <td>15,9 ms</td>
-                  <td>41,7 ms</td>
+                  <th scope="row">SD · 720 × 528</th>
+                  <td>×4</td>
+                  <td>12,5 ms</td>
                 </tr>
                 <tr>
                   <th scope="row">720p</th>
-                  <td>26,4 ms</td>
-                  <td>41,7 ms</td>
+                  <td>×2</td>
+                  <td>6,0 ms</td>
                 </tr>
                 <tr>
                   <th scope="row">1080p</th>
-                  <td>57,1 ms</td>
-                  <td>41,7 ms — budget dépassé</td>
+                  <td>×2</td>
+                  <td>14,8 ms</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p>
-            Ces temps isolent l’analyse et la restauration ; ils ne représentent pas le coût total
-            du lecteur. Les essais en lecture réelle ont également validé le passage de 720p à 1440p
-            sur cette carte. Les résultats dépendent du GPU, de la cadence et de la source : le
-            contrôle de fluidité pendant la lecture reste décisif.
+            Ces mesures concernent le moteur natif, pas le coût total du lecteur. Elles ne
+            garantissent pas le même débit sur toutes les RTX : la carte, la cadence, la source et
+            les finitions comptent aussi. Automatique vérifie la fluidité pendant la lecture réelle.
           </p>
         </details>
       </section>
 
       <section className="container ia-bottom-cta">
         <div>
-          <p className="eyebrow">À TOI DE CHOISIR LE RENDU</p>
+          <p className="eyebrow">TON PREMIER ÉPISODE AVEC HIKARI IA</p>
           <h2>
             Commence en
             <br />
             <em>Automatique.</em>
           </h2>
           <p>
-            Une NVIDIA RTX pour les moteurs IA. Le lecteur standard reste disponible sans RTX, et
-            les traitements peuvent être désactivés à tout moment.
+            Une NVIDIA RTX pour l’IA. Le lecteur standard fonctionne aussi sans RTX, et tu peux
+            désactiver les traitements à tout moment.
           </p>
         </div>
         <div>

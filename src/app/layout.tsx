@@ -16,14 +16,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: 'Hikari — Vos animés et mangas sur Windows', template: '%s · Hikari' },
   description:
-    'Animés en VF et VOSTFR, mangas, planning hebdomadaire et lecteur natif avec deux moteurs Hikari IA sur NVIDIA RTX. Découvre Hikari pour Windows.',
+    'Animés en VF et VOSTFR, mangas, planning et lecteur natif avec le moteur Hikari IA : six profils de rendu sur NVIDIA RTX. Découvre Hikari pour Windows.',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
     siteName: 'Hikari',
     title: 'Hikari — Animés, mangas, planning et Hikari IA',
     description:
-      'Tes animés, tes mangas, le planning des sorties et deux moteurs IA pour améliorer l’image. Dans la même application Windows.',
+      'Tes animés, tes mangas, le planning des sorties et un moteur IA maison avec six profils de rendu. Dans la même application Windows.',
     images: [
       {
         url: '/opengraph-image.png',

@@ -264,7 +264,8 @@
 }
 .ia-detail-grid h3,
 .ia-install-steps h3,
-.ia-verification-grid h3 {
+.ia-verification-grid h3,
+.ia-series-profile h3 {
   font-family: var(--font-sans);
   font-size: 1rem;
   letter-spacing: -0.025em;
@@ -384,7 +385,55 @@
   margin: 5px 0 0 105px;
 }
 .ia-settings-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 40px;
+}
+.ia-profile-grid {
+  gap: 20px;
+}
+.ia-profile-grid > article {
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--hk-border);
+  border-radius: 20px;
+  background: var(--color-base-100);
+}
+.ia-profile-grid > article:first-child {
+  background: color-mix(in oklab, var(--color-primary) 8%, var(--color-base-100));
+  border-color: color-mix(in oklab, var(--color-primary) 30%, var(--hk-border));
+}
+.ia-profile-label {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--hk-text-muted);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+}
+.ia-profile-grid h3 {
+  font-size: 1.2rem;
+}
+.ia-series-profile {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr);
+  gap: 20px;
+  padding: 30px;
+  margin-top: 35px;
+  border-radius: 20px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in oklab, var(--color-primary) 9%, var(--color-base-100)),
+    var(--color-base-100)
+  );
+}
+.ia-series-profile > .material-icons-round {
+  color: var(--color-primary);
+  font-size: 28px;
+}
+.ia-series-profile p {
+  max-width: 950px;
+  color: var(--hk-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.9;
 }
 .ia-verification-grid {
   display: grid;
@@ -488,6 +537,9 @@
   .ia-settings-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .ia-profile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .ia-engine-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -550,8 +602,14 @@
   }
   .ia-pipeline,
   .ia-gpu-notes,
+  .ia-profile-grid,
   .ia-settings-grid {
     grid-template-columns: 1fr;
+  }
+  .ia-series-profile {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px;
   }
   .ia-gpu-section {
     margin-top: 60px;

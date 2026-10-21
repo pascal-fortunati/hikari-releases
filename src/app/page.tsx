@@ -16,22 +16,22 @@ const modes = [
     icon: 'auto_fix_high',
     title: 'Automatique',
     label: 'Tu lances l’épisode, Hikari choisit',
-    text: 'Définition, cadence, fluidité : Hikari choisit le moteur et ses réglages. Si la Restauration ralentit la lecture, il passe au moteur Rapide.',
+    text: 'Restauré pour la SD, Fidèle pour la HD : Hikari choisit selon ta vidéo et surveille la fluidité. Le rendu Naturel prend le relais si nécessaire.',
     recommended: true,
   },
   {
     number: '02',
     icon: 'speed',
-    title: 'Rapide',
-    label: 'Le moteur pour la HD',
-    text: 'Trois profils — Performance, Balanced et Quality — et deux variantes : Standard pour un rendu fidèle, Sharp pour accentuer les contours. Les sources DVD peuvent être traitées en deux passes.',
+    title: 'Ton rendu',
+    label: 'Du fidèle au remasterisé',
+    text: 'Remasterisé, Restauré, Fidèle ou Naturel : choisis le caractère de l’image. Ton profil est mémorisé pour toute la série ; les autres animés gardent leur propre réglage.',
   },
   {
     number: '03',
     icon: 'texture',
-    title: 'Restauration',
-    label: 'Le moteur pour les sources abîmées',
-    text: 'Reconstruit les traits et réduit le bruit des vieux animés et des vidéos compressées. En Automatique : agrandissement ×4 jusqu’au 576p, ×2 jusqu’au 720p, si la lecture reste fluide.',
+    title: 'Personnalisé',
+    label: 'Quatre réglages, en direct',
+    text: 'Netteté, vivacité, noirceur et épaisseur des traits. Ajuste le moteur Hikari pendant la lecture : l’image change sans relancer l’épisode ni recompiler le moteur.',
   },
 ];
 
@@ -86,8 +86,8 @@ export default async function Home() {
                 <Icon name="memory" />
               </span>
               <span>
-                <strong>Hikari IA : deux moteurs dans ton lecteur.</strong>
-                <span>Rapide & Restauration · accélérés par NVIDIA RTX</span>
+                <strong>Hikari IA : un moteur maison, six profils de rendu.</strong>
+                <span>Conçu pour les animés · accéléré par NVIDIA RTX</span>
               </span>
               <Icon name="arrow_outward" />
             </a>
@@ -357,24 +357,23 @@ export default async function Home() {
               <div className="intelligence-copy" data-reveal>
                 <p className="eyebrow">03 / LE MOTEUR HIKARI IA</p>
                 <h2>
-                  Un vieil animé.
+                  Ton animé.
                   <br />
-                  Une image
+                  Ton image.
                   <br />
-                  <em>plus nette.</em>
+                  <em>Ton rendu.</em>
                 </h2>
                 <p>
-                  Des contours flous, du bruit, une source qui a mal vieilli ?{' '}
+                  Du DVD à l’épisode en Full HD.{' '}
                   <strong>
-                    Hikari IA agrandit l’image, reconstruit les traits et réduit le bruit pendant
-                    que tu regardes ton épisode.
+                    Le moteur Hikari restaure et agrandit les images pendant que tu regardes ton
+                    épisode, avec un modèle conçu pour les animés.
                   </strong>
                 </p>
                 <p>
-                  Deux moteurs complémentaires, intégrés au lecteur natif : <strong>Rapide</strong>{' '}
-                  pour l’amélioration courante et <strong>Restauration</strong> pour les sources
-                  plus dégradées. Le traitement tourne sur ta carte NVIDIA RTX via TensorRT, avec
-                  une intégration en C++.
+                  <strong>Un modèle maison, six profils de rendu.</strong> Agrandissement ×4 pour
+                  les sources DVD, ×2 jusqu’au 1080p. Choisis une image fidèle ou plus affirmée,
+                  puis garde ce profil pour toute la série. Le traitement reste sur ta NVIDIA RTX.
                 </p>
                 <Link href="/hikari-ia" className="text-link">
                   Comment fonctionne Hikari IA ?
@@ -435,16 +434,16 @@ export default async function Home() {
                 <Icon name="compare" />
                 <h3>Compare avec C.</h3>
                 <p>
-                  Passe de la lecture standard au moteur Rapide ou Restauration selon les moteurs
-                  disponibles. Tu vois ce qui change.
+                  Compare la lecture standard, le rendu Naturel et le moteur Hikari, selon leur
+                  disponibilité. Maj + C enregistre la même image pour les comparer.
                 </p>
               </div>
               <div>
                 <Icon name="tune" />
-                <h3>Règle le rendu.</h3>
+                <h3>Des panoramiques plus fluides.</h3>
                 <p>
-                  Lissage des dégradés, grain fin et mise à l’échelle haute qualité : les finitions
-                  se règlent pendant la lecture.
+                  Mouvement fluide cale la vidéo sur la fréquence de l’écran et adoucit les
+                  transitions à 24 et 25 images/s. Activé par défaut, désactivable dans le lecteur.
                 </p>
               </div>
               <div>
@@ -459,17 +458,17 @@ export default async function Home() {
             <details className="ai-setup">
               <summary>Et à la première utilisation ?</summary>
               <p>
-                Installe Hikari IA depuis les paramètres du lecteur. Restauration se télécharge
-                ensuite en arrière-plan, environ 110 Mo. À la première lecture d’une définition, le
-                moteur se prépare pour ta carte : une à trois minutes, avec une progression visible.
-                La vidéo continue sans IA en attendant ; le moteur préparé est conservé pour les
-                prochaines lectures.
+                Installe les composants Hikari IA depuis les paramètres du lecteur. Le moteur Hikari
+                ajoute environ 5 Mo, téléchargés automatiquement en arrière-plan. Une préparation
+                par facteur et format vidéo suffit pour les différentes définitions : environ 24
+                secondes pour ×2 et 40 secondes pour ×4 sur la RTX 5070 Ti de référence. La vidéo
+                continue sans IA pendant cette préparation, dont la durée dépend de ta carte.
               </p>
             </details>
             <div className="intelligence-footer">
               <span>
                 <Icon name="toggle_on" />
-                Tu peux désactiver Hikari IA à tout moment.
+                Activé par défaut sur une nouvelle installation. Désactivable à tout moment.
               </span>
               <p>
                 NVIDIA RTX requise pour les moteurs IA. La fluidité et les agrandissements possibles

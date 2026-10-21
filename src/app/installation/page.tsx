@@ -21,7 +21,7 @@ export default function InstallationPage() {
             <em>ton premier épisode ?</em>
           </>
         }
-        description="Installation, moteurs IA, raccourcis et questions pratiques. Tout ce qu’il faut pour prendre Hikari en main."
+        description="Installation, profils Hikari IA, raccourcis et questions pratiques. Tout ce qu’il faut pour prendre Hikari en main."
       >
         <PageStamp icon="keyboard" label="UN RACCOURCI À RETENIR" value={<kbd>Ctrl + K</kbd>}>
           Cherche un animé ou un manga, depuis toute l’application.
@@ -66,49 +66,64 @@ export default function InstallationPage() {
         <section id="hikari-ia" data-reveal>
           <h2>Bien démarrer avec Hikari IA</h2>
           <p>
-            Hikari IA reste optionnelle et nécessite une carte NVIDIA RTX. Installez ses composants
-            depuis les paramètres du lecteur. Le moteur Restauration est ensuite téléchargé en
-            arrière-plan, environ 110 Mo.
+            Hikari IA nécessite une carte NVIDIA RTX. Installez les composants depuis les paramètres
+            du lecteur : le moteur Hikari est ensuite téléchargé automatiquement en arrière-plan,
+            environ 5 Mo supplémentaires. Sur une nouvelle installation, l’IA et le profil
+            Automatique sont activés par défaut ; vous pouvez désactiver l’IA à tout moment.
           </p>
           <p>
             Pendant la lecture, ouvrez le panneau Hikari IA puis choisissez{' '}
-            <strong>Automatique</strong> pour laisser Hikari adapter les traitements à la définition
-            et à la cadence de la vidéo. Les modes Rapide et Restauration et les réglages manuels
-            restent disponibles.
+            <strong>Automatique</strong> pour laisser Hikari choisir le rendu selon la définition,
+            la cadence et la fluidité. Le panneau indique le profil réellement appliqué.
           </p>
           <p>
-            À la première utilisation d’une définition, une préparation du moteur pour votre carte
-            peut prendre une à trois minutes. La vidéo continue sans traitement pendant ce temps.
-            Vous pouvez désactiver Hikari IA à tout moment.
+            À la première utilisation, le moteur se prépare pour votre GPU, par facteur
+            d’agrandissement et format vidéo. Sur la RTX 5070 Ti de référence, comptez environ 24
+            secondes pour ×2 et 40 secondes pour ×4 ; la durée varie selon votre carte. Une barre de
+            progression suit cette étape et la vidéo continue sans IA en attendant. Le moteur
+            préparé sert ensuite pour les différentes définitions.
           </p>
           <p>
             La fluidité dépend du GPU, de la vidéo et du profil choisi. Aucun niveau de performance
             universel n’est garanti, notamment pour une sortie 4K.
           </p>
-          <h3>Deux moteurs, un mode Automatique</h3>
+          <h3>Six profils, un choix mémorisé par animé</h3>
           <ul>
             <li>
-              <strong>Rapide :</strong> amélioration courante et sources HD. Profils Performance,
-              Balanced et Quality ; variantes Standard et Sharp.
+              <strong>Automatique :</strong> Restauré pour les sources SD, Fidèle pour la HD,
+              Naturel lorsque le moteur Hikari ne peut pas suivre.
             </li>
             <li>
-              <strong>Restauration :</strong> reconstruction des traits et réduction du bruit. En
-              Automatique, ×4 jusqu’au 576p et ×2 jusqu’au 720p, tant que la lecture reste fluide.
+              <strong>Remasterisé, Restauré, Fidèle :</strong> un rendu affirmé, modéré ou le modèle
+              Hikari sans accentuation ajoutée. Agrandissement ×4 jusqu’au 576p et ×2 jusqu’au
+              1080p, dans les limites de cadence du moteur.
             </li>
             <li>
-              <strong>Automatique :</strong> choisit d’après la définition et la cadence, puis
-              surveille la fluidité. Hikari passe au moteur Rapide si nécessaire.
+              <strong>Naturel :</strong> un agrandissement plus léger, qui couvre aussi les sources
+              HD à 60 images/s.
+            </li>
+            <li>
+              <strong>Personnalisé :</strong> netteté, vivacité, noirceur et épaisseur des traits,
+              appliquées en direct pendant la lecture.
             </li>
           </ul>
           <p>
-            La touche C compare la lecture standard et les moteurs Rapide ou Restauration
-            disponibles. Les statistiques vidéo permettent de vérifier le moteur actif et la
-            définition après traitement.
+            Un profil choisi pendant la lecture est mémorisé pour toute la série. Les autres animés
+            suivent votre profil par défaut. La touche C compare la lecture standard, le rendu
+            Naturel et le moteur Hikari disponibles ; les statistiques vidéo montrent le traitement
+            actif et la définition de sortie.
           </p>
           <p>Maj + C enregistre les captures de comparaison dans Images → Hikari → Comparaisons.</p>
           <Link className="text-link" href="/hikari-ia">
-            Comprendre les moteurs et le traitement GPU <Icon name="arrow_outward" />
+            Comprendre les profils et le traitement GPU <Icon name="arrow_outward" />
           </Link>
+          <h3>Mouvement fluide</h3>
+          <p>
+            Activé par défaut dans les réglages vidéo, Mouvement fluide cale la lecture sur la
+            fréquence de l’écran et adoucit les transitions entre les images. Les panoramiques des
+            épisodes à 24 ou 25 images/s saccadent moins. Ce réglage reste indépendant de l’IA et
+            peut être désactivé.
+          </p>
         </section>
         <section id="raccourcis" data-reveal>
           <h2>Vos raccourcis, à portée de main</h2>
